@@ -54,6 +54,7 @@ class LucidDreamer:
         
         self.rgb = StableDiffusionInpaintPipeline.from_pretrained(
             'runwayml/stable-diffusion-inpainting', revision='fp16', torch_dtype=torch.float16).to('cuda')
+        self.rgb.enable_xformers_memory_efficient_attention()
         self.d = torch.hub.load('./ZoeDepth', 'ZoeD_N', source='local', pretrained=True).to('cuda')
 
     def run(self, rgb_cond, txt_cond, neg_txt_cond, pcdgenpath, seed, diff_steps, render_camerapath):
